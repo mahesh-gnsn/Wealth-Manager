@@ -14,7 +14,7 @@ const stockSchema = mongoose.Schema({
         required: true
     },
     priceBought: {
-        type: String,
+        type: Number,
         required: true
     },
     userId:{
