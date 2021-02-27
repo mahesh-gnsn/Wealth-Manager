@@ -17,6 +17,10 @@ const stockSchema = mongoose.Schema({
         type: Number,
         required: true
     },
+    marketPrice: {
+        type: Number,
+        required: false
+    },
     userId:{
         type: String,
         required: true
