@@ -58,7 +58,7 @@ router.get('/', async (req, res) => {
         var options = {
             method: 'GET',
             url: 'https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes',
-            params: { region: 'DE', symbols: req.query.symbol+".F", exchange: 'EUR' },
+            params: { region: 'DE', symbols: req.query.symbol + ".F", exchange: 'EUR' },
             headers: {
                 'x-rapidapi-key': 'a1132eddecmsh03305a8dc157bfdp1438cbjsn24afae5eb725',
                 'x-rapidapi-host': 'apidojo-yahoo-finance-v1.p.rapidapi.com'
@@ -94,13 +94,18 @@ router.get('/', async (req, res) => {
  */
 router.post('/', async (req, res) => {
     try {
+        req.query.symbol = "00D"; //change this to one send from ui
+        req.userId = "101" //logged in user need to replace with token
+        const marketPrice = await getStockDetails(req.query.symbol);
 
         let stockData = await Stocks.findOne({ symbol: req.body.symbol, userId: req.userId }).exec();
-        req.userId = "101" //logged in user need to replace with token
+
 
         if (stockData) {
             stockData.qty += req.body.qty;
             stockData.priceBought += req.body.priceBought;
+            stockData.marketPrice = marketPrice;
+            stockData.sum=marketPrice*stockData.qty;
         } else {
             stockData = new Stocks(req.body);
         }
@@ -226,5 +231,28 @@ router.get('/', async (req, res) => {
     }
 });
 
+async function getStockDetails(symbol) {
 
+    // req.query.symbol = "00D"; //change this to one send from ui
+
+    var options = {
+        method: 'GET',
+        url: 'https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes',
+        params: { region: 'DE', symbols: req.query.symbol + ".F", exchange: 'EUR' },
+        headers: {
+            'x-rapidapi-key': 'a1132eddecmsh03305a8dc157bfdp1438cbjsn24afae5eb725',
+            'x-rapidapi-host': 'apidojo-yahoo-finance-v1.p.rapidapi.com'
+        }
+    };
+
+    let data = await axios.request(options).then(function (response) {
+        //console.log(response.data);
+        return {
+            marketPrice: response.data.regularMarketPrice
+        };
+    }).catch(function (error) {
+        console.error(error);
+    });
+    return;
+}
 module.exports = router;

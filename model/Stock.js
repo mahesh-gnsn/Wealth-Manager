@@ -19,7 +19,11 @@ const stockSchema = mongoose.Schema({
     },
     marketPrice: {
         type: Number,
-        required: false
+        required: true
+    },    
+    sum: {
+        type: Number,
+        required: true
     },
     userId:{
         type: String,
