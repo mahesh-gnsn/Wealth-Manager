@@ -9,6 +9,10 @@ const stockWatchlistSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    marketPrice: {
+        type: Number,
+        required: false
+    },
     userId:{
         type: String,
         required: true
