@@ -12,6 +12,8 @@ const logger = new Logger(process.env.logLevel);
 // ROUTES
 const staticRoutes = require('./routes/static');
 const stockRoutes = require('./routes/stock');
+const blogRoutes = require('./routes/blog');
+
 const unauthorizedMessage = {
     success: false,
     message: "Unauthorized Usage"
@@ -23,6 +25,7 @@ app.use(helmet());
 app.use(bodyParser.json());
 app.use('/static', staticRoutes);
 app.use('/stock', stockRoutes);
+app.use('/blog', blogRoutes);
 
 // Initialize MongoDB with mongoose
 mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }, () => {
