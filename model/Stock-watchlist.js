@@ -17,6 +17,11 @@ const stockWatchlistSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    isDeleted: {
+        type: Boolean,
+        required: false,
+        default: false
+    },
     modifiedDate: {
         type: Date,
         required: false,
