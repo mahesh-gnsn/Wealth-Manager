@@ -211,4 +211,29 @@ router.get('/chart', async (req, res) => {
         });
     }
 });
+
+/**
+ *  Delete Stock by ID
+ */
+router.delete('/:id', async (req, res) => {
+    try {
+
+        const data = await Stocks.findOneAndUpdate({ _id: req.params.id }, { $set: { isDeleted: true, modifiedDate: Date.now() } }, { new: true, upsert: false, useFindAndModify: false }).exec();
+        if (data) {
+            res.status(200).json({
+                success: true,
+                data: data
+            });
+        } else {
+            logger.debug("Stock not found in DB");
+            res.status(404).json(createErrorResp("StockNotFound", "Stock could not be found"));
+        }
+
+    } catch (exception) {
+        logger.error(exception);
+        res.status(500).json(createErrorResp("StockNotFound", exception.message));
+    }
+});
+
+
 module.exports = router;
