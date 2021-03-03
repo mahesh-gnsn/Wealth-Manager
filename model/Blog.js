@@ -18,10 +18,15 @@ const blogSchema = mongoose.Schema({
         required: false,
         default: Date.now()
     },
-    backgroundImageUrl: {
+    blogImageUrl: {
         type: String,
         required: false
     },
+    blogCategories: {
+        type: String,
+        enum: ['CRYPTO', 'STOCKS'],
+        required: true
+    },    
     isDeleted: {
         type: Boolean,
         required: false,
