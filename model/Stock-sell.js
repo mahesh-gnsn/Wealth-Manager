@@ -1,30 +1,22 @@
 const mongoose = require('mongoose');
 
-const stockSchema = mongoose.Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    symbol: {
-        type: String,
-        required: true
-    },
-    qty: {
+const stockSellSchema = mongoose.Schema({
+    amountSold: {
         type: Number,
         required: true
     },
-    priceBought: {
+    priceSold: {
         type: Number,
         required: true
-    },    
+    },
     userId:{
         type: String,
         required: true
     },
-    isDeleted: {
-        type: Boolean,
+    soldDate: {
+        type: Date,
         required: false,
-        default: false
+        default: Date.now()
     },
     modifiedDate: {
         type: Date,
@@ -33,4 +25,4 @@ const stockSchema = mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Stock', stockSchema);
+module.exports = mongoose.model('StockSell', stockSellSchema);
